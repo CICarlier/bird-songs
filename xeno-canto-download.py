@@ -17,7 +17,7 @@ else:
 
 
 # API url must include query parameters. See https://www.xeno-canto.org/help/search
-url = 'https://www.xeno-canto.org/api/2/recordings?query=cnt:brazil&page=5'
+url = 'https://www.xeno-canto.org/api/2/recordings?query=cnt:peru&page=5'
 r = requests.get(url, allow_redirects=True)
 
 
