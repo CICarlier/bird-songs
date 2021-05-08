@@ -1,0 +1,20 @@
+## For Windows install - install Docker and WSL2 first. 
+#Step 1: Open PowerShell
+#Step 2 : Start a docker container
+docker run --rm --entrypoint /bin/bash -v "windowspath_to_audio_files:/tmp/bird" -it ubuntu
+#Step 3: Check your files are in tmpt/bird
+ls /tmp/bird
+
+#Step 4: Install sox
+apt update
+apt install sox libsox-fmt-mp3
+
+#Step 5: Noise Reduction
+for file in $(ls /tmp/bird); do sox /tmp/bird/${file} -n noiseprof /tmp/noise.prof; sox /tmp/bird/${file} /tmp/bird/clean-${file} noisered /tmp/noise.prof 0.20; done
+
+# or script version:
+for file in $(ls /tmp/bird)
+do 
+	sox /tmp/bird/${file} -n noiseprof /tmp/noise.prof
+	sox /tmp/bird/${file} /tmp/bird/clean-${file} noisered /tmp/noise.prof 0.20
+done
