@@ -17,8 +17,8 @@ else:
 
 
 # API url must include query parameters. See https://www.xeno-canto.org/help/search
-# Query takes all birds from Michigan with quality A, B or C, lenght <= to 120 seconds, where bird was seen and no playback was used to lure the bird.
-url = "https://www.xeno-canto.org/api/2/recordings?query=loc:michigan&q_gt:D&len_lt:120&bird-seen=yes&playback-used=no"
+# Query takes all birds from Michigan with quality A or B, lenght <= to 120 seconds, where bird was seen and no playback was used to lure the bird.
+url = "https://www.xeno-canto.org/api/2/recordings?query=loc:michigan&q_gt:C&len_lt:120&bird-seen=yes&playback-used=no"
 r = requests.get(url, allow_redirects=True)
 
 
