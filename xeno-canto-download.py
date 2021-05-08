@@ -17,12 +17,13 @@ else:
 
 
 # API url must include query parameters. See https://www.xeno-canto.org/help/search
-url = 'https://www.xeno-canto.org/api/2/recordings?query=cnt:peru&page=5'
+# Query takes all birds from Michigan with quality A, B or C, lenght <= to 120 seconds, where bird was seen and no playback was used to lure the bird.
+url = "https://www.xeno-canto.org/api/2/recordings?query=loc:michigan&q_gt:D&len_lt:120&bird-seen=yes&playback-used=no"
 r = requests.get(url, allow_redirects=True)
 
 
 
-for result in r.json()['recordings'][:10]:
+for result in r.json()['recordings']:
     # Download audio file to audio folder
     f = requests.get(f"http:{result['file']}", allow_redirects=True)
     open(f"audio/{result['id']}.mp3", 'wb').write(f.content)
