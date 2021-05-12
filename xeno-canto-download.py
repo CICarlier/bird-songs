@@ -25,6 +25,7 @@ urls = ["https://www.xeno-canto.org/api/2/recordings?query=loc:michigan+q_gt:C+l
         "https://www.xeno-canto.org/api/2/recordings?query=loc:illinois+q_gt:C+len_lt:120",
         "https://www.xeno-canto.org/api/2/recordings?query=loc:ontario+q_gt:C+len_lt:120"]
 
+#TODO: change code to download features only first, including urls, and THEN download files. MUCH FASTER!
 for url in urls:
     print(url)
     r = requests.get(url, allow_redirects=True)
