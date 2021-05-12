@@ -138,5 +138,5 @@ audio_noise_reduction/.DS_Store
 images/.DS_Store
 .DS_Store
 
-audio_8sec/*
+audio_noise_reduction/*
 /audio_michbirds/
