@@ -7,14 +7,15 @@ ls /tmp/bird
 
 #Step 4: Install sox
 apt update
-apt install sox libsox-fmt-mp3
+apt install -y sox libsox-fmt-mp3
 
 #Step 5: Noise Reduction
 for file in $(ls /tmp/bird); do sox /tmp/bird/${file} -n noiseprof /tmp/noise.prof; sox /tmp/bird/${file} /tmp/bird/clean-${file} noisered /tmp/noise.prof 0.20; done
 
-# or script version:
+# or script version with resampling:
 for file in $(ls /tmp/bird)
 do 
 	sox /tmp/bird/${file} -n noiseprof /tmp/noise.prof
 	sox /tmp/bird/${file} /tmp/bird/clean-${file} noisered /tmp/noise.prof 0.20
+	sox /tmp/bird/clean-${file} -r 22050 /tmp/bird/resampled-clean-${file}
 done
