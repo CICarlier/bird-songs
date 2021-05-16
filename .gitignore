@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 audio/*.mp3
 .idea/
-/features.csv
 
 # VS Code settings file
 .vscode/*
