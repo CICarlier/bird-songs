@@ -1,5 +1,6 @@
 ## For Windows install - install Docker and WSL2 first. 
 #Step 1: Open PowerShell
+optional: start WSL and type date to validate date is correct. If not, use "hwclock -s" to reset time. 
 #Step 2 : Start a docker container
 docker run --rm --entrypoint /bin/bash -v "windowspath_to_audio_files:/tmp/bird" -it ubuntu
 #Step 3: Check your files are in tmpt/bird
