@@ -1,0 +1,50 @@
+
+
+
+
+# Runs:- 
+Run1: dropout = 0.25 + 3 linear layers => accuracy = 0.6301- 
+Run 2: dropout = 0.25 + 2 linear layers => accuracy = 0.6127- 
+Run 3: dropout = 0.5 + 3 linear layers => accuracy = 0.6373- 
+Run 4: dropout = 0.5 + 2 linear layers => accuracy = 0.6227- 
+Run 5: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer => accuracy = 0.6491 (plus went up to 0.70!)- 
+Run 6: dropout = 0.5 + 2 linear layers + dropping the last convolutional layer => accuracy = 0.6445 (not up to 0.70)- 
+Run 7: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + last kernel at 2 with 0 padding => accuracy = 0.6073- 
+Run 8: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + BatchNorm2d momentum set to None (for cumulative moving average) => accuracy = 0.5464- 
+Run 9: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + InstanceNorm2d instead of BatchNorm2 as the normalization layer => accuracy = 0.6418- 
+Run 10: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(8, n_channels) instead of BatchNorm2 as the normalization layer => accuracy = 0.6455-
+Run 11: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(8, 32) then (16, 64)  instead of BatchNorm2 as the normalization layer => accuracy = 0.6373- 
+Run 12: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(4, 32) then (8, 64)  instead of BatchNorm2 as the normalization layer => accuracy = 0.6582- 
+Run 13: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(4, 32) then (4, 64)  instead of BatchNorm2 as the normalization layer => accuracy = 0.6591- 
+Run 14: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64)  instead of BatchNorm2 as the normalization layer => accuracy = 0.6645- 
+Run 15: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (2, 64)  instead of BatchNorm2 as the normalization layer => accuracy = 0.6336- 
+Run 16: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64)  instead of BatchNorm2 as the normalization layer + PoissonNLLoss instead of CrossEntropyLoss as loss function => accuracy = 0.6655 (actually loss function not implemented so same as run 14)- 
+Run 17: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64)  instead of BatchNorm2 as the normalization layer + AdamW instead of Adam as optimizer function => accuracy = 0.6418- 
+Run 18: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64)  instead of BatchNorm2 as the normalization layer + Adamax instead of Adam as optimizer function => accuracy = 0.5409 note: 
+
+AdaDelta gave very low score Best run: Run 16
+
+Runs:
+
+Run1: dropout = 0.25 + 3 linear layers => accuracy = 0.6301
+Run 2: dropout = 0.25 + 2 linear layers => accuracy = 0.6127
+Run 3: dropout = 0.5 + 3 linear layers => accuracy = 0.6373
+Run 4: dropout = 0.5 + 2 linear layers => accuracy = 0.6227
+Run 5: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer => accuracy = 0.6491 (plus went up to 0.70!)
+Run 6: dropout = 0.5 + 2 linear layers + dropping the last convolutional layer => accuracy = 0.6445 (not up to 0.70)
+Run 7: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + last kernel at 2 with 0 padding => accuracy = 0.6073
+Run 8: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + BatchNorm2d momentum set to None (for cumulative moving average) => accuracy = 0.5464
+Run 9: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + InstanceNorm2d instead of BatchNorm2 as the normalization layer => accuracy = 0.6418
+Run 10: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(8, n_channels) instead of BatchNorm2 as the normalization layer => accuracy = 0.6455
+Run 11: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(8, 32) then (16, 64) instead of BatchNorm2 as the normalization layer => accuracy = 0.6373
+Run 12: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(4, 32) then (8, 64) instead of BatchNorm2 as the normalization layer => accuracy = 0.6582
+Run 13: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(4, 32) then (4, 64) instead of BatchNorm2 as the normalization layer => accuracy = 0.6591
+Run 14: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64) instead of BatchNorm2 as the normalization layer => accuracy = 0.6645
+Run 15: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (2, 64) instead of BatchNorm2 as the normalization layer => accuracy = 0.6336
+Run 16: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64) instead of BatchNorm2 as the normalization layer + PoissonNLLoss instead of CrossEntropyLoss as loss function => accuracy = 0.6655 (actually loss function not implemented so same as run 14)
+Run 17: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64) instead of BatchNorm2 as the normalization layer + AdamW instead of Adam as optimizer function => accuracy = 0.6418
+Run 18: dropout = 0.5 + 3 linear layers + dropping the last convolutional layer + GroupNorm(2, 32) then (4, 64) instead of BatchNorm2 as the normalization layer + Adamax instead of Adam as optimizer function => accuracy = 0.5409
+note: AdaDelta gave very low score
+Best run: Run 16
+
+
