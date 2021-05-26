@@ -19,7 +19,7 @@ Depending on your filters and internet speed, this may take a little while.
 2. **Noise Reduction and Resampling**
 
 This step varies depending on your environment. We are providing the steps to run the denoising and resampling steps on an Ubuntu docker image running on Windows 10. 
-If you are using Ubuntu, open a command shell and go directly to step e).
+If you are using Ubuntu, open a command shell and go directly to step 5.
  1. Prerequisite for Windows 10 enviornment: install Docker and WSL2. 
  2. Open PowerShell
  3. Optional: It happens sometimes that if your computer goes to sleep the WSL clock gets misalign. To make sure you do not run into an issue, start WSL by typing `wsl` in your powershell command, then type `date`. 
