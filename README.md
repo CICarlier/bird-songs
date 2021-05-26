@@ -40,6 +40,14 @@ If you are using Ubuntu, open a command shell and go directly to step 5.
 	sox /tmp/bird/audio/${file} /tmp/clean-${file} noisered /tmp/noise.prof 0.20
 	sox /tmp/clean-${file} -r 22050 /tmp/bird/audio_noise_reduction/resampled-clean-${file}
  done``
+ 9. Optional step: trim all silence from audio files using SoX's `silence` effect.
+ ``
+ mkdir -p /tmp/bird/audio_no_silence/
+ for file in $(ls /tmp/bird/audio_noise_reduction/)
+ do
+	sox /tmp/bird/audio_noise_reduction/${file} /tmp/bird/audio_no_silence/no-silence-${file} silence 1 0.1 1% -1 0.1 1%
+ done
+ ``
  
  Note that the SoX utility tool can be downloaded and installed on any platform (Windows, Mac, Linux). For more information on [Sound eXchange (SoX)](http://sox.sourceforge.net/), refer to [SoX documentation](http://sox.sourceforge.net/Docs/Documentation).
 

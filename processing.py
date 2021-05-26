@@ -8,22 +8,24 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def loop_and_cut(_id, input_path, output_path):
+def loop_and_cut(_id, input_path, output_path, duration=8, max_shape=176400):
     '''
     Cut the audio files to the first 8 seconds and loop through smaller files up to 8 seconds. Writes the transformed
     files to a new folder.
     :param _id: the id of the audio file passed to the function. Should be a 6-digit number
     :param input_path: the path of the folder the audio files is currently stored, e.g. 'audio_noise_reduction/'
     :param output_path: the path of the folder the transformed audio files should be saved at, e.g. 'audio_8sec/'
+    :param duration: the length of the output file. Default is 8 seconds
+    :param max_shape: the max length of the x array of loaded files. Default is 176400 (8 seconds)
     :return: no returned values, just a print statement
     '''
-    x, sr = librosa.load(f'{input_path}{_id}.mp3', duration=8)
-    if x.shape[0] < 176400: # 8-sec file will have a shape of (176400,)
-        while x.shape[0] < 176400:
+    x, sr = librosa.load(f'{input_path}{_id}.mp3', duration=duration)
+    if x.shape[0] < max_shape:
+        while x.shape[0] < max_shape:
             y, sr = librosa.load(f'{input_path}{_id}.mp3')
             x = np.append(x, y)
         sf.write(f'audio_noise_reduction/{_id}.wav', x, sr)
-        z, r = librosa.load(f'audio_noise_reduction/{_id}.wav', duration=8)
+        z, r = librosa.load(f'audio_noise_reduction/{_id}.wav', duration=duration)
         sf.write(f'{output_path}/{_id}.wav', z, sr)
         print(f'looped and cut {_id}')
     else:
@@ -92,6 +94,8 @@ def mel_spectograms(audio_file, path, _id, best_clip=False, num_div=0):
     :param audio_file: path of the audio file to load e.g. audio_8sec/169075.wav
     :param path: name of folder to save output file e.g. images/audio_8sec
     :param _id: id of the file processed - should be a 6-figure integer
+    :param best_clip: whether to pass the dataset to the find_best_clip function or not. Default is False.
+    :param num_div: number of divisions to pass to the find_best_clip function.
     :return: no value returned, image saved to a folder.
     '''
 
@@ -138,33 +142,46 @@ fmin = 4000 # Minimum Hz
 n_fft = 512 # Choose 2^n where n is integer
 hop_length = 256 # Choose equal, half, or quarter of N_FFT
 
-# # Generate 8-second audio files based on the resampled files
-# clear_directory('audio_8sec')
-# for file in glob.glob("audio_noise_reduction/*"):
-#     _id = file.split('.')[0].split('-')[-1]
-#     loop_and_cut(_id, 'audio_noise_reduction/resampled-clean-', 'audio_8sec')
-#
-# # Generate mel-spectrograms of the 8-second files
-# clear_directory('images/mel_spectrograms_8sec')
-# for file in glob.glob("audio_8sec/*"):
-#     _id = file.split('\\')[1].split('.')[0]
-#     mel_spectograms(file, 'mel_spectrograms_8sec', _id)
-#
-#
-# # Generate 8-second audio files based on the original files
-# clear_directory('audio_8sec_unprocessed')
-# for file in glob.glob("audio/*"):
-#     _id = file.split('\\')[1].split('.')[0]
-#     loop_and_cut(_id, 'audio/', 'audio_8sec_unprocessed')
-#
-# # Generate mel-spectrograms of the 8-second files
-# clear_directory('images/mel_spectrograms_8sec_unprocessed')
-# for file in glob.glob("audio_8sec_unprocessed/*"):
-#     _id = file.split('\\')[1].split('.')[0]
-#     mel_spectograms(file, 'mel_spectrograms_8sec_unprocessed', _id)
+# Generate 8-second audio files based on the resampled files
+clear_directory('audio_8sec')
+for file in glob.glob("audio_noise_reduction/*"):
+    _id = file.split('.')[0].split('-')[-1]
+    loop_and_cut(_id, 'audio_noise_reduction/resampled-clean-', 'audio_8sec')
+
+# Generate mel-spectrograms of the 8-second files
+clear_directory('images/mel_spectrograms_8sec')
+for file in glob.glob("audio_8sec/*"):
+    _id = file.split('\\')[1].split('.')[0]
+    mel_spectograms(file, 'mel_spectrograms_8sec', _id)
+
+
+# Generate 8-second audio files based on the original files
+clear_directory('audio_8sec_unprocessed')
+for file in glob.glob("audio/*"):
+    _id = file.split('\\')[1].split('.')[0]
+    loop_and_cut(_id, 'audio/', 'audio_8sec_unprocessed')
+
+# Generate mel-spectrograms of the 8-second files
+clear_directory('images/mel_spectrograms_8sec_unprocessed')
+for file in glob.glob("audio_8sec_unprocessed/*"):
+    _id = file.split('\\')[1].split('.')[0]
+    mel_spectograms(file, 'mel_spectrograms_8sec_unprocessed', _id)
 
 # Generate mel-spectrograms of the best clip of each files
 clear_directory('images/mel_spectrograms_best_clip')
 for file in glob.glob("audio_noise_reduction/*"):
     _id = file.split('\\')[1].split('.')[0]
     mel_spectograms(file, 'mel_spectrograms_best_clip', _id, best_clip=True, num_div=4)
+
+
+# Generate 2-second audio files based on the resampled files with no silence
+clear_directory('audio_2sec_no_silence')
+for file in glob.glob("audio_no_silence/*"):
+    _id = file.split('.')[0].split('-')[-1]
+    loop_and_cut(_id, 'audio_no_silence/no-silence-resampled-clean-', 'audio_2sec_no_silence', duration=2, max_shape=44100)
+
+# Generate mel-spectrograms of the 2-second files
+clear_directory('images/mel_spectrograms_2sec_no_silence')
+for file in glob.glob("audio_2sec_no_silence/*"):
+    _id = file.split('\\')[1].split('.')[0]
+    mel_spectograms(file, 'mel_spectrograms_2sec_no_silence', _id)
