@@ -20,26 +20,26 @@ Depending on your filters and internet speed, this may take a little while.
 
 This step varies depending on your environment. We are providing the steps to run the denoising and resampling steps on an Ubuntu docker image running on Windows 10. 
 If you are using Ubuntu, open a command shell and go directly to step e).
- a) Prerequisite for Windows 10 enviornment: install Docker and WSL2. 
- b) Open PowerShell
- c) Optional: It happens sometimes that if your computer goes to sleep the WSL clock gets misalign. To make sure you do not run into an issue, start WSL by typing `wsl` in your powershell command, then type `date`. 
+ 1. Prerequisite for Windows 10 enviornment: install Docker and WSL2. 
+ 2. Open PowerShell
+ 3. Optional: It happens sometimes that if your computer goes to sleep the WSL clock gets misalign. To make sure you do not run into an issue, start WSL by typing `wsl` in your powershell command, then type `date`. 
  If the UTC date is not correct, use `hwclock -s` to reset time. 
- d) Start your docker container by typing `docker run --rm --entrypoint /bin/bash -v "{windowspath_to_your_repository}:/tmp/bird" -it ubuntu`.
- e) Validate that your files are in the tmpt/bird folder with `ls /tmp/bird`
- f) Optional: update ubuntu `apt update`
- g) Install sox `apt install -y sox libsox-fmt-mp3`
- h: Execute the noise reduction and resampling script. This script uses two sox functions for noise reduction: `noiseprof` create the noise profile of a file that will be used as a baseling to remove the noise, 
+ 4. Start your docker container by typing `docker run --rm --entrypoint /bin/bash -v "{windowspath_to_your_repository}:/tmp/bird" -it ubuntu`.
+ 5. Validate that your files are in the tmpt/bird folder with `ls /tmp/bird`
+ 6. Optional: update ubuntu `apt update`
+ 7. Install sox `apt install -y sox libsox-fmt-mp3`
+ 8. Execute the noise reduction and resampling script. This script uses two sox functions for noise reduction: `noiseprof` create the noise profile of a file that will be used as a baseling to remove the noise, 
  `noisered` attenuate any signal below the threshold established by the moise profile. The noise profile is set at .20 here, but you can filter it further up or down. 
  Then the `-r` resampling code will harmonize all the files to a common rate and resolution of 22,050Htz. 
  As files may come from different media, they may have been recorded at different rates and this technique harmonizes them.
- ```
+ ``
  mkdir -p /tmp/bird/audio_noise_reduction/
  for file in $(ls /tmp/bird/audio)
  do 
 	sox /tmp/bird/audio/${file} -n noiseprof /tmp/noise.prof
 	sox /tmp/bird/audio/${file} /tmp/clean-${file} noisered /tmp/noise.prof 0.20
 	sox /tmp/clean-${file} -r 22050 /tmp/bird/audio_noise_reduction/resampled-clean-${file}
- done```
+ done``
  
  Note that the SoX utility tool can be downloaded and installed on any platform (Windows, Mac, Linux). For more information on [Sound eXchange (SoX)](http://sox.sourceforge.net/), refer to [SoX documentation](http://sox.sourceforge.net/Docs/Documentation).
 
