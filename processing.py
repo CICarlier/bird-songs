@@ -66,11 +66,15 @@ def find_best_clip(y, num_div=1, sample_rate = 22050):
     y_norm_positive = y_norm.clip(min=0)
 
     # Calculate areas for each window
-    length_audio_clip = int(len(y_norm_positive) / sample_rate) # seconds
-    print(length_audio_clip)
-    duration_per_window = length_audio_clip / num_div  # seconds
-    hop_length = duration_per_window / 10  # seconds
+    length_audio_clip = len(y_norm_positive) / sample_rate # seconds
+    # print(length_audio_clip)
+    # if duration is less than num_div seconds, loop file. Otherwise, set duration per window to num_div seconds.
+    duration_per_window = num_div  # seconds
+    # print(duration_per_window)
+    hop_length = duration_per_window / 10 # seconds
     total_hops = int(length_audio_clip / hop_length)
+    # print(hop_length)
+    # print(total_hops)
 
     area = []
     for hop in range(total_hops):
@@ -100,7 +104,8 @@ def mel_spectograms(audio_file, path, _id, best_clip=False, num_div=0):
     '''
 
     y, sr = librosa.load(audio_file)
-    mel = librosa.feature.melspectrogram(y=y, sr=sr)
+    if best_clip == False:
+        mel = librosa.feature.melspectrogram(y=y, sr=sr)
     # Clip file to best subclip, if requested
     if best_clip == True:
         print(_id)
@@ -142,46 +147,46 @@ fmin = 4000 # Minimum Hz
 n_fft = 512 # Choose 2^n where n is integer
 hop_length = 256 # Choose equal, half, or quarter of N_FFT
 
-# Generate 8-second audio files based on the resampled files
-clear_directory('audio_8sec')
-for file in glob.glob("audio_noise_reduction/*"):
-    _id = file.split('.')[0].split('-')[-1]
-    loop_and_cut(_id, 'audio_noise_reduction/resampled-clean-', 'audio_8sec')
-
-# Generate mel-spectrograms of the 8-second files
-clear_directory('images/mel_spectrograms_8sec')
-for file in glob.glob("audio_8sec/*"):
-    _id = file.split('\\')[1].split('.')[0]
-    mel_spectograms(file, 'mel_spectrograms_8sec', _id)
-
-
-# Generate 8-second audio files based on the original files
-clear_directory('audio_8sec_unprocessed')
-for file in glob.glob("audio/*"):
-    _id = file.split('\\')[1].split('.')[0]
-    loop_and_cut(_id, 'audio/', 'audio_8sec_unprocessed')
-
-# Generate mel-spectrograms of the 8-second files
-clear_directory('images/mel_spectrograms_8sec_unprocessed')
-for file in glob.glob("audio_8sec_unprocessed/*"):
-    _id = file.split('\\')[1].split('.')[0]
-    mel_spectograms(file, 'mel_spectrograms_8sec_unprocessed', _id)
+# # Generate 8-second audio files based on the resampled files
+# clear_directory('audio_8sec')
+# for file in glob.glob("audio_noise_reduction/*"):
+#     _id = file.split('.')[0].split('-')[-1]
+#     loop_and_cut(_id, 'audio_noise_reduction/resampled-clean-', 'audio_8sec')
+#
+# # Generate mel-spectrograms of the 8-second files
+# clear_directory('images/mel_spectrograms_8sec')
+# for file in glob.glob("audio_8sec/*"):
+#     _id = file.split('\\')[1].split('.')[0]
+#     mel_spectograms(file, 'mel_spectrograms_8sec', _id)
+#
+#
+# # Generate 8-second audio files based on the original files
+# clear_directory('audio_8sec_unprocessed')
+# for file in glob.glob("audio/*"):
+#     _id = file.split('\\')[1].split('.')[0]
+#     loop_and_cut(_id, 'audio/', 'audio_8sec_unprocessed')
+#
+# # Generate mel-spectrograms of the 8-second files
+# clear_directory('images/mel_spectrograms_8sec_unprocessed')
+# for file in glob.glob("audio_8sec_unprocessed/*"):
+#     _id = file.split('\\')[1].split('.')[0]
+#     mel_spectograms(file, 'mel_spectrograms_8sec_unprocessed', _id)
 
 # Generate mel-spectrograms of the best clip of each files
 clear_directory('images/mel_spectrograms_best_clip')
 for file in glob.glob("audio_noise_reduction/*"):
     _id = file.split('\\')[1].split('.')[0]
-    mel_spectograms(file, 'mel_spectrograms_best_clip', _id, best_clip=True, num_div=4)
+    mel_spectograms(file, 'mel_spectrograms_best_clip', _id, best_clip=True, num_div=2)
 
 
-# Generate 2-second audio files based on the resampled files with no silence
-clear_directory('audio_2sec_no_silence')
-for file in glob.glob("audio_no_silence/*"):
-    _id = file.split('.')[0].split('-')[-1]
-    loop_and_cut(_id, 'audio_no_silence/no-silence-resampled-clean-', 'audio_2sec_no_silence', duration=2, max_shape=44100)
-
-# Generate mel-spectrograms of the 2-second files
-clear_directory('images/mel_spectrograms_2sec_no_silence')
-for file in glob.glob("audio_2sec_no_silence/*"):
-    _id = file.split('\\')[1].split('.')[0]
-    mel_spectograms(file, 'mel_spectrograms_2sec_no_silence', _id)
+# # Generate 2-second audio files based on the resampled files with no silence
+# clear_directory('audio_2sec_no_silence')
+# for file in glob.glob("audio_no_silence/*"):
+#     _id = file.split('.')[0].split('-')[-1]
+#     loop_and_cut(_id, 'audio_no_silence/no-silence-resampled-clean-', 'audio_2sec_no_silence', duration=2, max_shape=44100)
+#
+# # Generate mel-spectrograms of the 2-second files
+# clear_directory('images/mel_spectrograms_2sec_no_silence')
+# for file in glob.glob("audio_2sec_no_silence/*"):
+#     _id = file.split('\\')[1].split('.')[0]
+#     mel_spectograms(file, 'mel_spectrograms_2sec_no_silence', _id)
