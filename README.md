@@ -48,6 +48,16 @@ If you are using Ubuntu, open a command shell and go directly to step 5.
 	sox /tmp/bird/audio_noise_reduction/${file} /tmp/bird/audio_no_silence/no-silence-${file} silence 1 0.1 1% -1 0.1 1%
  done
  ``
+ 10. Data augmentation: remove silence then trim all files to 2 second clips:
+ ``
+ mkdir -p /tmp/bird/audio_augmentation/
+ for file in $(ls /tmp/bird/audio_noise_reduction/)
+ do
+ 	sox /tmp/bird/audio_noise_reduction/${file} /tmp/${file} silence 1 0.1 0.5% -1 0.1 0.5%
+	sox /tmp/${file} /tmp/bird/audio_augmentation/${file} trim 0 2.0 : newfile : restart
+
+ done
+ ``
  
  Note that the SoX utility tool can be downloaded and installed on any platform (Windows, Mac, Linux). For more information on [Sound eXchange (SoX)](http://sox.sourceforge.net/), refer to [SoX documentation](http://sox.sourceforge.net/Docs/Documentation).
 

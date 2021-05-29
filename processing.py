@@ -210,11 +210,11 @@ hop_length = 256 # Choose equal, half, or quarter of N_FFT
 #     _id = file.split('\\')[1].split('.')[0]
 #     mel_spectograms(file, 'mel_spectrograms_8sec_unprocessed', _id)
 
-# Generate mel-spectrograms of the best clip of each files
-clear_directory('images/mel_spectrograms_best_clip')
-for file in glob.glob("audio_noise_reduction/*"):
-    _id = file.split('\\')[1].split('.')[0]
-    mel_spectograms(file, 'mel_spectrograms_best_clip', _id, best_clip=True, subclip_sec=2)
+# # Generate mel-spectrograms of the best clip of each files
+# clear_directory('images/mel_spectrograms_best_clip')
+# for file in glob.glob("audio_noise_reduction/*"):
+#     _id = file.split('\\')[1].split('.')[0]
+#     mel_spectograms(file, 'mel_spectrograms_best_clip', _id, best_clip=True, subclip_sec=2)
 
 
 # # Generate 2-second audio files based on the resampled files with no silence
@@ -228,3 +228,9 @@ for file in glob.glob("audio_noise_reduction/*"):
 # for file in glob.glob("audio_2sec_no_silence/*"):
 #     _id = file.split('\\')[1].split('.')[0]
 #     mel_spectograms(file, 'mel_spectrograms_2sec_no_silence', _id)
+
+# # Generate mel_spectograms of augmented data
+clear_directory('images/mel_spectrograms_augmented_data')
+for file in glob.glob("audio_augmentation/*"):
+    _id = file.split('\\')[1].split('.')[0]
+    mel_spectograms(file, 'mel_spectrograms_augmented_data', _id)
