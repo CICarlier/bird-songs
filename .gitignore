@@ -140,3 +140,4 @@ images/.DS_Store
 audio_noise_reduction/*
 /audio_michbirds/
 *.wav
+Spherical_K_Means-Example.ipynb
